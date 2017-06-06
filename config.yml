@@ -1,0 +1,22 @@
+jdbc:
+  derby:
+    url: jdbc:derby:target/demodb;create=true
+    driverClassName: org.apache.derby.jdbc.EmbeddedDriver
+    initialSize: 1
+
+cayenne:
+  datasource: derby
+  createSchema: true
+
+linkmove:
+  connectorFactories:
+    - type: jdbc
+    - type: uri
+    - type: uri
+      connectors:
+        derbyTargetConnector: derby
+        domainSourceConnector: file:////path/domain.json
+        tagSourceConnector: file:////path/tag.csv
+
+
+
