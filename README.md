@@ -103,8 +103,11 @@ YAML configuration:
         - type: jdbc
         - type: uri
           connectors:
-            domainSourceConnector: file:///Users/elenabondareva/bootique-linkmove-demo/domain.json
-            tagSourceConnector: file:///Users/elenabondareva/bootique-linkmove-demo/tag.csv
+            domainSourceConnector: file:///path/domain.json
+            tagSourceConnector: file:///path/tag.csv
+
+    #Note: set absolute URI to source files instead of path placeholders as a temporal workaround
+
 
 Run the job:
     
