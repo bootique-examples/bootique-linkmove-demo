@@ -15,7 +15,10 @@ public class Application implements Module {
     @Override
     public void configure(Binder binder) {
 
+        //extend LinkMove stack
         LinkMoveModule.extend(binder).addLinkMoveBuilderCallback(ArticleCallBack.class);
+
+        //register synchronization job running batch of tasks
         JobModule.extend(binder).addJob(SyncJob.class);
     }
 }

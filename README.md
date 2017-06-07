@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/bootique-examples/bootique-linkmove-producer.svg)](https://travis-ci.org/bootique-examples/bootique-linkmove-producer)
+[![Build Status](https://travis-ci.org/bootique-examples/bootique-linkmove-demo.svg)](https://travis-ci.org/bootique-examples/bootique-linkmove-demo)
 
 # bootique-linkmove-demo
 
@@ -78,10 +78,13 @@ Check the options now:
            options.  
 
 
-In a few words things happens in the way: 
-* [Cayenne](https://cayenne.apache.org) ORM is used for the target database.
-* Transforming data with extractors described in [XML](http://linkmove.io/xsd/extractor_config_2.xsd) and listeners (e.g. domain-extractor.xml and ArticleListener).
-* Target data source is defined in YAML configuration file. To extend LinkMove stack LinkMoveBuilderCallback can be used.
+In a few words things happen in the way: 
+* [Cayenne](https://cayenne.apache.org) ORM is used for the target database. 
+* Transforming data with extractors described in XML (e.g. [domain-extractor.xml](https://github.com/bootique-examples/bootique-linkmove-demo/blob/master/domain-extractor.xml) ) 
+and listeners (e.g. [ArticleListener](https://github.com/bootique-examples/bootique-linkmove-demo/blob/master/src/main/java/io/bootique/linkmove/demo/SyncJob.java)).
+* YAML configuration file defines data sources and target source. To extend LinkMove stack LinkMoveBuilderCallback can be used, 
+e.g. articles connector is provided by callback 
+(see [ArticleCallBack](https://github.com/bootique-examples/bootique-linkmove-demo/blob/master/src/main/java/io/bootique/linkmove/demo/ArticleCallBack.java)).
 
 YAML configuration:
 
@@ -99,13 +102,9 @@ YAML configuration:
       connectorFactories:
         - type: jdbc
         - type: uri
-        - type: uri
           connectors:
-            derbyTargetConnector: derby
-            domainSourceConnector: file:////path/domain.json
-            tagSourceConnector: file:////path/tag.csv
-
-Articles connector is provided by callback (see io.bootique.linkmove.demo.ArticleCallBack).
+            domainSourceConnector: file:///Users/elenabondareva/bootique-linkmove-demo/domain.json
+            tagSourceConnector: file:///Users/elenabondareva/bootique-linkmove-demo/tag.csv
 
 Run the job:
     

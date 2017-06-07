@@ -1,7 +1,6 @@
 package io.bootique.linkmove.demo;
 
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.nhl.link.move.Execution;
 import com.nhl.link.move.LmTask;
 import com.nhl.link.move.annotation.AfterTargetsMerged;
@@ -20,7 +19,7 @@ import java.util.Map;
 
 public class SyncJob extends BaseJob {
     @Inject
-    private Provider<LmRuntime> lmRuntimeProvider;
+    private LmRuntime lmRuntime;
 
     public SyncJob() {
         super(JobMetadata.build(SyncJob.class));
@@ -28,14 +27,14 @@ public class SyncJob extends BaseJob {
 
     @Override
     public JobResult run(Map<String, Object> map) {
-        LmTask domainTask = lmRuntimeProvider.get()
+        LmTask domainTask = lmRuntime
                 .getTaskService()
                 .createOrUpdate(Domain.class)
                 .sourceExtractor("domain-extractor.xml")
                 .matchBy(Domain.NAME)
                 .task();
 
-        LmTask articleTask = lmRuntimeProvider.get()
+        LmTask articleTask = lmRuntime
                 .getTaskService()
                 .createOrUpdate(Article.class)
                 .batchSize(50)
@@ -44,7 +43,7 @@ public class SyncJob extends BaseJob {
                 .matchBy(Article.TITLE)
                 .task();
 
-        LmTask tagTask = lmRuntimeProvider.get()
+        LmTask tagTask = lmRuntime
                 .getTaskService()
                 .createOrUpdate(Tag.class)
                 .sourceExtractor("tag-extractor.xml")
@@ -61,7 +60,6 @@ public class SyncJob extends BaseJob {
 
         return JobResult.success(getMetadata());
     }
-
 
     public static class ArticleListener {
 
