@@ -1,4 +1,4 @@
-package io.bootique.linkmove.demo;
+package io.bootique.lm.demo;
 
 import com.google.inject.Inject;
 import com.nhl.link.move.Execution;

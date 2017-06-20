@@ -37,7 +37,7 @@ Check the options available in your app dependent on *bootique-linkmove*:
            Prints information about application modules and their configuration
            options.
            
-Usual way to synchronize data is jobs executed periodically. To put batch of tasks into a job and run it add dependency on *bootique-job*:
+Usual way to synchronize data is jobs executed periodically. In order to put a batch of tasks into a job, add dependency on *bootique-job*:
   
     <dependency>
         <groupId>io.bootique.job</groupId>
@@ -77,16 +77,10 @@ Check the options now:
            Enforces sequential execution of the jobs, specified with '--job'
            options.  
 
+Define data sources and target database in *config.yml*. To extend LinkMove stack, call backs can be used, e.g. 
+[ArticleCallBack](https://github.com/bootique-examples/bootique-linkmove-demo/blob/master/src/main/java/io/bootique/linkmove/demo/ArticleCallBack.java).
 
-In a few words things happen in the way: 
-* [Cayenne](https://cayenne.apache.org) ORM is used for the target database. 
-* Transforming data with extractors described in XML (e.g. [domain-extractor.xml](https://github.com/bootique-examples/bootique-linkmove-demo/blob/master/domain-extractor.xml) ) 
-and listeners (e.g. [ArticleListener](https://github.com/bootique-examples/bootique-linkmove-demo/blob/master/src/main/java/io/bootique/linkmove/demo/SyncJob.java)).
-* YAML configuration file defines data sources and target source. To extend LinkMove stack LinkMoveBuilderCallback can be used, 
-e.g. articles connector is provided by callback 
-(see [ArticleCallBack](https://github.com/bootique-examples/bootique-linkmove-demo/blob/master/src/main/java/io/bootique/linkmove/demo/ArticleCallBack.java)).
-
-YAML configuration:
+*config.yml*:
 
     jdbc:
       derby:
@@ -95,19 +89,29 @@ YAML configuration:
         initialSize: 1
     
     cayenne:
-      datasource: derby
+      datasource: derby #target database
       createSchema: true
     
     linkmove:
       connectorFactories:
-        - type: jdbc
         - type: uri
-          connectors:
-            domainSourceConnector: file:///path/domain.json
-            tagSourceConnector: file:///path/tag.csv
+          connectors: #data sources        
+            domainSourceConnector: classpath:etl/domain.json
+            tagSourceConnector: tag.csv
 
-    #Note: set absolute URI to source files instead of path placeholders as a temporal workaround
+[Cayenne](https://cayenne.apache.org) is non-separable part of LinkMove as an ORM for the target database.  
+  
+*cayenne-project.xml*:
+       
+    <?xml version="1.0" encoding="utf-8"?>
+    <domain project-version="9">
+        <map name="datamap"/>
+        <!--No data node is declared - config.yml is used-->
+    </domain>
 
+
+Transforming data is performed by extractors described in XML (e.g. [domain-extractor.xml](https://github.com/bootique-examples/bootique-linkmove-demo/blob/master/domain-extractor.xml) ) 
+and listeners (e.g. [ArticleListener](https://github.com/bootique-examples/bootique-linkmove-demo/blob/master/src/main/java/io/bootique/linkmove/demo/SyncJob.java)).
 
 Run the job:
     
