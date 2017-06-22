@@ -95,9 +95,9 @@ Define data sources and target database in *config.yml*. To extend LinkMove stac
     linkmove:
       connectorFactories:
         - type: uri
-          connectors: #data sources        
-            domainSourceConnector: classpath:etl/domain.json
-            tagSourceConnector: tag.csv
+          connectors: #data sources
+            domainSourceConnector: file:///Users/user/bootique-linkmove-demo/domain.json # use an absolute URI
+            tagSourceConnector: file:///Users/user/bootique-linkmove-demo/tag.csv
 
 [Cayenne](https://cayenne.apache.org) is non-separable part of LinkMove as an ORM for the target database.  
   
