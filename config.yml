@@ -12,5 +12,5 @@ linkmove:
   connectorFactories:
     - type: uri
       connectors: #data sources
-        domainSourceConnector: classpath:etl/domain.json
-        tagSourceConnector: tag.csv
+        domainSourceConnector: file:///Users/user/bootique-linkmove-demo/domain.json # use an absolute URI
+        tagSourceConnector: file:///Users/user/bootique-linkmove-demo/tag.csv
