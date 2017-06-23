@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<data-map xmlns="http://cayenne.apache.org/schema/9/modelMap"
+	 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	 xsi:schemaLocation="http://cayenne.apache.org/schema/9/modelMap http://cayenne.apache.org/schema/9/modelMap.xsd"
+	 project-version="9">
+	<property name="defaultPackage" value="io.bootique.cayenne.lm"/>
+	<db-entity name="t_article" catalog="targetdb">
+		<db-attribute name="body" type="LONGVARCHAR" length="16777215"/>
+		<db-attribute name="domain_id" type="BIGINT" isMandatory="true" length="19"/>
+		<db-attribute name="id" type="BIGINT" isPrimaryKey="true" isMandatory="true" length="19"/>
+		<db-attribute name="published_on" type="TIMESTAMP" isMandatory="true"/>
+		<db-attribute name="quote_index" type="DOUBLE" isMandatory="true" length="22"/>
+		<db-attribute name="title" type="VARCHAR" isMandatory="true" length="100"/>
+	</db-entity>
+	<db-entity name="t_domain" catalog="targetdb">
+		<db-attribute name="id" type="BIGINT" isPrimaryKey="true" isMandatory="true" length="19"/>
+		<db-attribute name="name" type="VARCHAR" isMandatory="true" length="100"/>
+		<db-attribute name="vhost" type="VARCHAR" isMandatory="true" length="100"/>
+	</db-entity>
+	<db-entity name="t_tag" catalog="targetdb">
+		<db-attribute name="article_id" type="BIGINT" isMandatory="true" length="19"/>
+		<db-attribute name="id" type="BIGINT" isPrimaryKey="true" isMandatory="true" length="19"/>
+		<db-attribute name="name" type="VARCHAR" length="200"/>
+	</db-entity>
+	<obj-entity name="TArticle" className="io.bootique.cayenne.lm.TArticle" dbEntityName="t_article">
+		<obj-attribute name="body" type="java.lang.String" db-attribute-path="body"/>
+		<obj-attribute name="publishedOn" type="java.time.LocalDateTime" db-attribute-path="published_on"/>
+		<obj-attribute name="quoteIndex" type="double" db-attribute-path="quote_index"/>
+		<obj-attribute name="title" type="java.lang.String" db-attribute-path="title"/>
+	</obj-entity>
+	<obj-entity name="TDomain" className="io.bootique.cayenne.lm.TDomain" dbEntityName="t_domain">
+		<obj-attribute name="name" type="java.lang.String" db-attribute-path="name"/>
+		<obj-attribute name="vhost" type="java.lang.String" db-attribute-path="vhost"/>
+	</obj-entity>
+	<obj-entity name="TTag" className="io.bootique.cayenne.lm.TTag" dbEntityName="t_tag">
+		<obj-attribute name="name" type="java.lang.String" db-attribute-path="name"/>
+	</obj-entity>
+	<db-relationship name="domain" source="t_article" target="t_domain" toMany="false">
+		<db-attribute-pair source="domain_id" target="id"/>
+	</db-relationship>
+	<db-relationship name="tTags" source="t_article" target="t_tag" toMany="true">
+		<db-attribute-pair source="id" target="article_id"/>
+	</db-relationship>
+	<db-relationship name="tArticles" source="t_domain" target="t_article" toMany="true">
+		<db-attribute-pair source="id" target="domain_id"/>
+	</db-relationship>
+	<db-relationship name="article" source="t_tag" target="t_article" toMany="false">
+		<db-attribute-pair source="article_id" target="id"/>
+	</db-relationship>
+	<obj-relationship name="domain" source="TArticle" target="TDomain" deleteRule="Nullify" db-relationship-path="domain"/>
+	<obj-relationship name="tTags" source="TArticle" target="TTag" deleteRule="Deny" db-relationship-path="tTags"/>
+	<obj-relationship name="tArticles" source="TDomain" target="TArticle" deleteRule="Deny" db-relationship-path="tArticles"/>
+	<obj-relationship name="article" source="TTag" target="TArticle" deleteRule="Nullify" db-relationship-path="article"/>
+</data-map>

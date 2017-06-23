@@ -1,0 +1,22 @@
+jdbc:
+  sourcedb:
+    url: jdbc:mysql://localhost:3306/sourcedb?connectTimeout=0&autoReconnect=true
+    driverClassName: com.mysql.jdbc.Driver
+    initialSize: 1
+    username: root
+    password:
+  targetdb:
+      url: jdbc:mysql://localhost:3306/targetdb?connectTimeout=0&autoReconnect=true
+      driverClassName: com.mysql.jdbc.Driver
+      initialSize: 1
+      username: root
+      password:
+
+cayenne:
+  datasource: targetdb
+  createSchema: true
+
+linkmove:
+  extractorsDir: /Users/elenabondareva/bootique-linkmove-demo/sync-database
+  connectorFactories:
+    - type: jdbc
