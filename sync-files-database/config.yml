@@ -10,8 +10,8 @@ cayenne:
   datasource: targetdb
 
 linkmove:
-  extractorsDir: /Users/elenabondareva/bootique-linkmove-demo/sync-files-database
+  extractorsDir: /Users/your_user/bootique-linkmove-demo/sync-files-database
   connectorFactories:
     - type: uri
       connectors: #sources
-        tagSourceConnector: file:///Users/elenabondareva/bootique-linkmove-demo/sync-files-database/tag.csv #use absolute path
+        tagSourceConnector: file:///Users/your_user/bootique-linkmove-demo/sync-files-database/tag.csv #use absolute path

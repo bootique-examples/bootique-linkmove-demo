@@ -17,6 +17,6 @@ cayenne:
   createSchema: true
 
 linkmove:
-  extractorsDir: /Users/elenabondareva/bootique-linkmove-demo/sync-database #use absolute path
+  extractorsDir: /Users/your_user/bootique-linkmove-demo/sync-database #use absolute path
   connectorFactories:
     - type: jdbc

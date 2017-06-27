@@ -64,7 +64,7 @@ Define data sources and target database in *config.yml*:
       datasource: targetdb
     
     linkmove:
-      extractorsDir: /Users/elenabondareva/bootique-linkmove-demo/sync-files-database
+      extractorsDir: /Users/your_user/bootique-linkmove-demo/sync-files-database
       connectorFactories:
         - type: uri
           connectors: #sources
