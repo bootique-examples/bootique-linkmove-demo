@@ -1,0 +1,17 @@
+jdbc:
+  targetdb:
+      url: jdbc:mysql://localhost:3306/targetdb?connectTimeout=0&autoReconnect=true
+      driverClassName: com.mysql.jdbc.Driver
+      initialSize: 1
+      username: root
+      password:
+
+cayenne:
+  datasource: targetdb
+
+linkmove:
+  extractorsDir: /Users/elenabondareva/bootique-linkmove-demo/sync-files-database
+  connectorFactories:
+    - type: uri
+      connectors: #sources
+        tagSourceConnector: file:///Users/elenabondareva/bootique-linkmove-demo/sync-files-database/tag.csv #use absolute path
