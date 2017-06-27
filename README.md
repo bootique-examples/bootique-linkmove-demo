@@ -2,11 +2,89 @@
 
 # bootique-linkmove-demo
 
-An example of data synchronization with [Linkmove](https://github.com/nhl/link-move) built on [Bootique](http://bootique.io).
+* **sync-database** - an example of data synchronization from one database into another
+* **sync-files-database** - an example of data synchronization from files' data sources into a database
 
-*For additional help/questions about this example send a message to
-[Bootique forum](https://groups.google.com/forum/#!forum/bootique-user).*
+# Basic points
 
+LinkMove is used to connect data models together in a flexible way. Here the following models are considered: 
+source and target ones.
+![Alt text](resources/bootique-linkmove-demo.png?raw=true "Optional Title")
+
+*Note:* for the example **sync-files-database** source model is replaced by CSV and JSON files.
+
+Usual way to synchronize data is jobs executed periodically. In order to put a batch of tasks into a job, add dependency on 
+*bootique-job* into pom.xml:
+  
+    <dependency>
+        <groupId>io.bootique.job</groupId>
+        <artifactId>bootique-job</artifactId>
+    </dependency>
+
+To describe source and targets *config.yml* is used:
+    
+    jdbc:
+      sourcedb:
+        url: jdbc:mysql://localhost:3306/sourcedb?connectTimeout=0&autoReconnect=true
+        driverClassName: com.mysql.jdbc.Driver
+        initialSize: 1
+        username: root
+        password:
+      targetdb:
+          url: jdbc:mysql://localhost:3306/targetdb?connectTimeout=0&autoReconnect=true
+          driverClassName: com.mysql.jdbc.Driver
+          initialSize: 1
+          username: root
+          password:
+    
+    cayenne:
+      datasource: targetdb
+      createSchema: true
+    
+    linkmove:
+      extractorsDir: /Users/your_user/bootique-linkmove-demo/sync-database #use absolute path
+      connectorFactories: #name of source connector is taken from extractor.xml <connectorId>sourcedb</connectorId>
+        - type: jdbc
+
+Extractor XML format is described by a formal schema: http://linkmove.io/xsd/extractor_config_2.xsd
+
+An example using JDBC connector for the source data:
+    
+    <?xml version="1.0" encoding="utf-8"?>
+    <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation="http://linkmove.io/xsd/extractor_config_2.xsd"
+            xmlns="http://linkmove.io/xsd/extractor_config_2.xsd">
+        <type>jdbc</type>
+        <connectorId>sourcedb</connectorId>
+        <extractor>
+            <attributes>
+                <attribute>
+                    <type>java.lang.String</type>
+                    <source>id</source>
+                    <target>db:id</target>
+                </attribute>
+                <attribute>
+                    <type>java.lang.String</type>
+                    <source>name</source>
+                    <target>name</target>
+                </attribute>
+                <attribute>
+                    <type>java.lang.String</type>
+                    <source>domain_host</source>
+                    <target>vhost</target>
+                </attribute>
+            </attributes>
+            <properties>
+                <!--
+                 Query to run against the source. Supports full Cayenne
+                                 SQLTemplate syntax, including parameters and directives.
+                -->
+                <extractor.jdbc.sqltemplate>SELECT id, name, domain_host FROM s_domain</extractor.jdbc.sqltemplate>
+                <extractor.jdbc.sqltemplate.caps>LOWER</extractor.jdbc.sqltemplate.caps>
+            </properties>
+        </extractor>
+    </config>
+    
 ## Prerequisites
 
 * Java 1.8 or newer.
@@ -22,104 +100,13 @@ Here is how to build it:
 
 ## Run the Demo
 
-Check the options available in your app dependent on *bootique-linkmove*:
+Run **sync-files-database**:
 
-    java -jar target/bootique.linkmove.demo-1.0-SNAPSHOT.jar
+    java -jar sync-files-database/target/sync-files-database-1.0-SNAPSHOT.jar --config=sync-files-database/config.yml --exec --job=sync
 
-    OPTIONS
-      -c yaml_location, --config=yaml_location
-           Specifies YAML config location, which can be a file path or a URL.
+Run **sync-database**:
 
-      -h, --help
-           Prints this message.
+    java -jar sync-database/target/sync-database-1.0-SNAPSHOT.jar --config=sync-database/config.yml --exec --job=sync
 
-      -H, --help-config
-           Prints information about application modules and their configuration
-           options.
-           
-Usual way to synchronize data is jobs executed periodically. In order to put a batch of tasks into a job, add dependency on *bootique-job*:
-  
-    <dependency>
-        <groupId>io.bootique.job</groupId>
-        <artifactId>bootique-job</artifactId>
-    </dependency>
-
-Check the options now:
-
-    java -jar target/bootique.linkmove.demo-1.0-SNAPSHOT.jar
-    
-    OPTIONS
-      -c yaml_location, --config=yaml_location
-           Specifies YAML config location, which can be a file path or a URL.
-
-      -e, --exec
-           Executes one or more jobs. Jobs are specified with '--job' options
-
-      -h, --help
-           Prints this message.
-
-      -H, --help-config
-           Prints information about application modules and their configuration
-           options.
-
-      -j job_name, --job=job_name
-           Specifies the name of the job to run with '--exec'. Available job
-           names can be viewed using '--list' command.
-
-      -l, --list
-           Lists all jobs available in the app
-
-      --schedule
-           Schedules and executes jobs according to configuration. Waits
-           indefinitely on the foreground.
-
-      --serial
-           Enforces sequential execution of the jobs, specified with '--job'
-           options.  
-
-Define data sources and target database in *config.yml*. To extend LinkMove stack, call backs can be used, e.g. 
-[ArticleCallBack](https://github.com/bootique-examples/bootique-linkmove-demo/blob/master/src/main/java/io/bootique/linkmove/demo/ArticleCallBack.java).
-
-*config.yml*:
-
-    jdbc:
-      derby:
-        url: jdbc:derby:target/demodb;create=true
-        driverClassName: org.apache.derby.jdbc.EmbeddedDriver
-        initialSize: 1
-    
-    cayenne:
-      datasource: derby #target database
-      createSchema: true
-    
-    linkmove:
-      connectorFactories:
-        - type: uri
-          connectors: #data sources
-            domainSourceConnector: file:///Users/user/bootique-linkmove-demo/domain.json # use an absolute URI
-            tagSourceConnector: file:///Users/user/bootique-linkmove-demo/tag.csv
-
-[Cayenne](https://cayenne.apache.org) is non-separable part of LinkMove as an ORM for the target database.  
-  
-*cayenne-project.xml*:
-       
-    <?xml version="1.0" encoding="utf-8"?>
-    <domain project-version="9">
-        <map name="datamap"/>
-        <!--No data node is declared - config.yml is used-->
-    </domain>
-
-
-Transforming data is performed by extractors described in XML (e.g. [domain-extractor.xml](https://github.com/bootique-examples/bootique-linkmove-demo/blob/master/domain-extractor.xml) ) 
-and listeners (e.g. [ArticleListener](https://github.com/bootique-examples/bootique-linkmove-demo/blob/master/src/main/java/io/bootique/linkmove/demo/SyncJob.java)).
-
-Run the job:
-    
-    java -jar target/bootique.linkmove.demo-1.0-SNAPSHOT.jar --config=config.yml --exec --job=sync
-
-Result report:
-
-    ...
-        Domains:{Task=CreateOrUpdateTask:<ExtractorName: domain-extractor.xml.default_extractor>, Status=finished, Duration=386, Extracted=3, Created=3, Updated=0, Deleted=0}
-        Articles:{Task=CreateOrUpdateTask:<ExtractorName: article-extractor.xml.default_extractor>, Status=finished, Duration=42, Extracted=3, Created=3, Updated=0, Deleted=0}
-        Tags:{Task=CreateOrUpdateTask:<ExtractorName: tag-extractor.xml.default_extractor>, Status=finished, Duration=29, Extracted=3, Created=3, Updated=0, Deleted=0}
+   
+For additional details, please, take a peek at README.md of each of these examples.
