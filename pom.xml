@@ -11,76 +11,15 @@
     </parent>
 
     <groupId>io.bootique.linkmove.demo</groupId>
-    <artifactId>bootique.linkmove.demo</artifactId>
+    <artifactId>bootique-linkmove-demo</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
 
-    <properties>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
+    <name>bootique-linkmove-demo</name>
+    <description>Examples for Bootique-Linkmove</description>
 
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <main.class>io.bootique.linkmove.demo.Application</main.class>
-    </properties>
-
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>io.bootique.bom</groupId>
-                <artifactId>bootique-bom</artifactId>
-                <version>0.22</version>
-                <scope>import</scope>
-                <type>pom</type>
-            </dependency>
-            <dependency>
-                <groupId>com.nhl.link.move</groupId>
-                <artifactId>link-move-csv</artifactId>
-                <version>2.2</version>
-            </dependency>
-            <dependency>
-                <groupId>com.nhl.link.move</groupId>
-                <artifactId>link-move-json</artifactId>
-                <version>2.2</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.derby</groupId>
-                <artifactId>derby</artifactId>
-                <version>10.13.1.1</version>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
-
-    <dependencies>
-        <dependency>
-            <groupId>io.bootique.linkmove</groupId>
-            <artifactId>bootique-linkmove</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.nhl.link.move</groupId>
-            <artifactId>link-move-csv</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.nhl.link.move</groupId>
-            <artifactId>link-move-json</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.bootique.job</groupId>
-            <artifactId>bootique-job</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.bootique.logback</groupId>
-            <artifactId>bootique-logback</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.derby</groupId>
-            <artifactId>derby</artifactId>
-        </dependency>
-    </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <artifactId>maven-shade-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
+    <modules>
+        <module>sync-files-database</module>
+        <module>sync-database</module>
+    </modules>
 </project>

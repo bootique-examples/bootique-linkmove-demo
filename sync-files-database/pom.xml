@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>io.bootique.linkmove.demo</groupId>
+        <artifactId>bootique-linkmove-demo</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>sync-files-database</artifactId>
+    <packaging>jar</packaging>
+
+    <name>sync-files-database</name>
+    <description>
+        Example of synchronization data from files' data sources into a database.
+    </description>
+
+    <properties>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <linkmove-version>2.2</linkmove-version>
+        <derby-version>10.13.1.1</derby-version>
+        <mysql-version>6.0.6</mysql-version>
+
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <main.class>Application</main.class>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>io.bootique.bom</groupId>
+                <artifactId>bootique-bom</artifactId>
+                <version>0.22</version>
+                <scope>import</scope>
+                <type>pom</type>
+            </dependency>
+            <dependency>
+                <groupId>com.nhl.link.move</groupId>
+                <artifactId>link-move-csv</artifactId>
+                <version>${linkmove-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.nhl.link.move</groupId>
+                <artifactId>link-move-json</artifactId>
+                <version>${linkmove-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.derby</groupId>
+                <artifactId>derby</artifactId>
+                <version>${derby-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>${mysql-version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies>
+        <dependency>
+            <groupId>io.bootique.linkmove</groupId>
+            <artifactId>bootique-linkmove</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.nhl.link.move</groupId>
+            <artifactId>link-move-csv</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.nhl.link.move</groupId>
+            <artifactId>link-move-json</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.bootique.job</groupId>
+            <artifactId>bootique-job</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.bootique.logback</groupId>
+            <artifactId>bootique-logback</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.derby</groupId>
+            <artifactId>derby</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-shade-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+</project>

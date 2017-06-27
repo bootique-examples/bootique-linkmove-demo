@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://linkmove.io/xsd/extractor_config_2.xsd"
+        xmlns="http://linkmove.io/xsd/extractor_config_2.xsd">
+    <type>jdbc</type>
+    <connectorId>sourcedb</connectorId>
+    <extractor>
+        <attributes>
+            <attribute>
+                <type>java.lang.String</type>
+                <source>id</source>
+                <target>db:id</target>
+            </attribute>
+            <attribute>
+                <type>java.lang.String</type>
+                <source>name</source>
+                <target>name</target>
+            </attribute>
+            <attribute>
+                <type>java.lang.String</type>
+                <source>article_id</source>
+                <target>db:article_id</target>
+            </attribute>
+        </attributes>
+        <properties>
+            <!--
+             Query to run against the source. Supports full Cayenne
+                             SQLTemplate syntax, including parameters and directives.
+            -->
+            <extractor.jdbc.sqltemplate>SELECT id, name, article_id FROM s_tag</extractor.jdbc.sqltemplate>
+            <extractor.jdbc.sqltemplate.caps>LOWER</extractor.jdbc.sqltemplate.caps>
+        </properties>
+    </extractor>
+</config>
