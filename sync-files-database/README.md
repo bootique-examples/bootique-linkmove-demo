@@ -51,50 +51,52 @@ Check the options available in your app:
            Enforces sequential execution of the jobs, specified with '--job' options.
 
 Define data sources and target database in *config.yml*:
+```yaml
+jdbc:
+  targetdb:
+      url: jdbc:mysql://localhost:3306/targetdb?connectTimeout=0&autoReconnect=true
+      driverClassName: com.mysql.jdbc.Driver
+      initialSize: 1
+      username: root
+      password:
 
-    jdbc:
-      targetdb:
-          url: jdbc:mysql://localhost:3306/targetdb?connectTimeout=0&autoReconnect=true
-          driverClassName: com.mysql.jdbc.Driver
-          initialSize: 1
-          username: root
-          password:
-    
-    cayenne:
-      datasource: targetdb
-    
-    linkmove:
-      extractorsDir: /Users/your_user/bootique-linkmove-demo/sync-files-database
-      connectorFactories:
-        - type: uri
-          connectors: #sources
-            tagSourceConnector: file:///Users/your_user/bootique-linkmove-demo/sync-files-database/tag.csv #use absolute path
+cayenne:
+  datasource: targetdb
+
+linkmove:
+  extractorsDir: /Users/your_user/bootique-linkmove-demo/sync-files-database
+  connectorFactories:
+    - type: uri
+      connectors: #sources
+        tagSourceConnector: file:///Users/your_user/bootique-linkmove-demo/sync-files-database/tag.csv #use absolute path
+```
 
 [Cayenne](https://cayenne.apache.org) is non-separable part of LinkMove as an ORM for the target database.  
   
 *cayenne-project.xml*:
-       
-    <?xml version="1.0" encoding="utf-8"?>
-    <domain project-version="9">
-        <map name="datamap"/>
-    
-        <!--skip data node declaration - config.yml is used-->
-    
-        <!--<node name="datanode"-->
-             <!--factory="org.apache.cayenne.configuration.server.XMLPoolingDataSourceFactory"-->
-             <!--schema-update-strategy="org.apache.cayenne.access.dbsync.SkipSchemaUpdateStrategy"-->
-            <!--&gt;-->
-            <!--<map-ref name="datamap"/>-->
-            <!--<data-source>-->
-                <!--<driver value="com.mysql.jdbc.Driver"/>-->
-                <!--<url value="jdbc:mysql://localhost:3306/targetdb?connectTimeout=0&amp;autoReconnect=true"/>-->
-                <!--<connectionPool min="1" max="1"/>-->
-                <!--<login userName="root"/>-->
-            <!--</data-source>-->
-        <!--</node>-->
-    </domain>
+```xml       
+<?xml version="1.0" encoding="utf-8"?>
+<domain project-version="9">
+    <map name="datamap"/>
 
-Transforming data is performed by extractors described in XML (e.g. [domain-extractor.xml](https://github.com/bootique-examples/bootique-linkmove-demo/sync-files-database/blob/master/domain-extractor.xml)). 
+    <!--skip data node declaration - config.yml is used-->
+
+    <!--<node name="datanode"-->
+         <!--factory="org.apache.cayenne.configuration.server.XMLPoolingDataSourceFactory"-->
+         <!--schema-update-strategy="org.apache.cayenne.access.dbsync.SkipSchemaUpdateStrategy"-->
+        <!--&gt;-->
+        <!--<map-ref name="datamap"/>-->
+        <!--<data-source>-->
+            <!--<driver value="com.mysql.jdbc.Driver"/>-->
+            <!--<url value="jdbc:mysql://localhost:3306/targetdb?connectTimeout=0&amp;autoReconnect=true"/>-->
+            <!--<connectionPool min="1" max="1"/>-->
+            <!--<login userName="root"/>-->
+        <!--</data-source>-->
+    <!--</node>-->
+</domain>
+```
+
+Transforming data is performed by extractors described in XML (e.g. [domain-extractor.xml](https://github.com/bootique-examples/bootique-linkmove-demo/blob/master/sync-files-database/domain-extractor.xml)). 
 
 Run the job:
     
