@@ -1,8 +1,8 @@
 package io.bootique.lm.cayenne;
 
-import io.bootique.lm.cayenne.auto._TDomain;
+import io.bootique.lm.cayenne.auto._SArticle;
 
-public class TDomain extends _TDomain {
+public class SArticle extends _SArticle {
 
     private static final long serialVersionUID = 1L; 
 

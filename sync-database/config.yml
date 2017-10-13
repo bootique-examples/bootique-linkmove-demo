@@ -17,6 +17,6 @@ cayenne:
   createSchema: true
 
 linkmove:
-  extractorsDir: /Users/your_user/bootique-linkmove-demo/sync-database #use absolute path
+  extractorsDir: classpath:etl
   connectorFactories:
     - type: jdbc

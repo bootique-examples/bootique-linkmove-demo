@@ -1,18 +1,14 @@
 import com.google.inject.Inject;
 import com.nhl.link.move.Execution;
 import com.nhl.link.move.LmTask;
-import com.nhl.link.move.annotation.AfterTargetsMerged;
 import com.nhl.link.move.runtime.LmRuntime;
-import com.nhl.link.move.runtime.task.createorupdate.CreateOrUpdateSegment;
-import com.nhl.link.move.runtime.task.createorupdate.CreateOrUpdateTuple;
 import io.bootique.job.BaseJob;
 import io.bootique.job.JobMetadata;
 import io.bootique.job.runnable.JobResult;
-import io.bootique.lm.cayenne.TArticle;
-import io.bootique.lm.cayenne.TDomain;
-import io.bootique.lm.cayenne.TTag;
+import io.bootique.lm.cayenne.SArticle;
+import io.bootique.lm.cayenne.SDomain;
+import io.bootique.lm.cayenne.STag;
 
-import java.time.LocalDateTime;
 import java.util.Map;
 
 public class SyncJob extends BaseJob {
@@ -27,25 +23,24 @@ public class SyncJob extends BaseJob {
     public JobResult run(Map<String, Object> map) {
         LmTask domainTask = lmRuntime
                 .getTaskService()
-                .createOrUpdate(TDomain.class)
+                .createOrUpdate(SDomain.class)
                 .sourceExtractor("domain-extractor.xml")
-                .matchBy(TDomain.NAME)
+                .matchBy(SDomain.NAME)
                 .task();
 
         LmTask articleTask = lmRuntime
                 .getTaskService()
-                .createOrUpdate(TArticle.class)
+                .createOrUpdate(SArticle.class)
                 .batchSize(50)
-                .stageListener(new ArticleListener())
                 .sourceExtractor("article-extractor.xml")
-                .matchBy(TArticle.TITLE)
+                .matchBy(SArticle.TITLE)
                 .task();
 
         LmTask tagTask = lmRuntime
                 .getTaskService()
-                .createOrUpdate(TTag.class)
+                .createOrUpdate(STag.class)
                 .sourceExtractor("tag-extractor.xml")
-                .matchBy(TTag.NAME)
+                .matchBy(STag.NAME)
                 .task();
 
         Execution domainResult = domainTask.run();
@@ -59,17 +54,4 @@ public class SyncJob extends BaseJob {
         return JobResult.success(getMetadata());
     }
 
-    public static class ArticleListener {
-
-        @AfterTargetsMerged
-        public void fixArticles(Execution e, CreateOrUpdateSegment<TArticle> segment) {
-
-            segment.getMerged().stream().map(CreateOrUpdateTuple::getTarget)
-                    .forEach(g -> {
-                        g.setPublishedOn(LocalDateTime.now());
-                        g.setQuoteIndex(0);
-                    });
-        }
-
-    }
 }
