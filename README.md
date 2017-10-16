@@ -2,19 +2,22 @@
 
 # bootique-linkmove-demo
 
-* [sync-database](https://github.com/bootique-examples/bootique-linkmove-demo/tree/master/sync-database) - an example of data synchronization from one database into another
-* [sync-files-database](https://github.com/bootique-examples/bootique-linkmove-demo/tree/master/sync-files-database) - an example of data synchronization from files' data sources into a database
+Here you can find some examples of [LinkMove](https://github.com/nhl/link-move) usage
+in [Bootique](http://bootique.io/) app: 
+* [sync-files-database](https://github.com/bootique-examples/bootique-linkmove-demo/tree/master/sync-files-database) - an example of data synchronization from files' data sources into a database;
+* [sync-database](https://github.com/bootique-examples/bootique-linkmove-demo/tree/master/sync-database) - an example of data synchronization from one database into another.
 
 # Basic points
 
-LinkMove is used to connect data models together in a flexible way. Here the following models are considered: 
-source and target ones.
+* Both examples work with the same related models to be synchronized:
 ![Alt text](resources/bootique-linkmove-demo.png?raw=true)
 
-*Note:* for the example **sync-files-database** source model is replaced by CSV and JSON files.
+* Run [sourcedb.sql](https://github.com/ebondareva/bootique-linkmove-demo/blob/master/resources/sourcedb.sql)
+and [targetdb.sql](https://github.com/ebondareva/bootique-linkmove-demo/blob/master/resources/targetdb.sql) 
+to create schemas from scratch ([MySQL](https://www.mysql.com/) database is used).
 
-Usual way to synchronize data is jobs executed periodically. In order to put a batch of tasks into a job, add dependency on 
-*bootique-job* into pom.xml:
+* In the examples data is synchronized via jobs executed periodically.
+To do that, the dependency on *bootique-job* is added into the pom.xml:
 ```xml   
 <dependency>
     <groupId>io.bootique.job</groupId>
@@ -22,7 +25,8 @@ Usual way to synchronize data is jobs executed periodically. In order to put a b
 </dependency>
 ```
 
-Describe source and targets in *config.yml*:
+* Source and target are described in a *config.yml*. 
+E.g. [sync-database/config.yml](https://github.com/ebondareva/bootique-linkmove-demo/blob/master/sync-database/config.yml): 
 ```yaml
 jdbc:
   sourcedb:
@@ -43,14 +47,12 @@ cayenne:
   createSchema: true
 
 linkmove:
-  extractorsDir: /Users/your_user/bootique-linkmove-demo/sync-database #use absolute path
-  connectorFactories: #name of source connector is taken from extractor.xml <connectorId>sourcedb</connectorId>
+  extractorsDir: classpath:etl
+  connectorFactories:
     - type: jdbc
 ```
-
-Extractor XML format is described by a formal schema: http://linkmove.io/xsd/extractor_config_2.xsd
-
-An example using JDBC connector for the source data:
+* Extractor XML format is described by a formal schema: http://linkmove.io/xsd/extractor_config_2.xsd.
+An example using JDBC connector for the source:
 ```xml   
 <?xml version="1.0" encoding="utf-8"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -103,13 +105,13 @@ Here is how to build it:
 
 ## Run the Demo
 
-Run **sync-files-database**:
+To to fill in the source database, run **sync-files-database** example first:
 
     java -jar sync-files-database/target/sync-files-database-1.0-SNAPSHOT.jar --config=sync-files-database/config.yml --exec --job=sync
 
-Run **sync-database**:
+Then run **sync-database**:
 
     java -jar sync-database/target/sync-database-1.0-SNAPSHOT.jar --config=sync-database/config.yml --exec --job=sync
 
    
-For additional details, please, take a peek at README.md of each of these examples.
+**Note:** more detailed explanations you can find in the README.md of the examples.

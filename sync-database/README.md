@@ -1,7 +1,6 @@
 # Synchronization between databases
 
 An example of data synchronization from one database into another. 
-The example is developed with [Linkmove](https://github.com/nhl/link-move) integrated into [Bootique](http://bootique.io).
 
 *For additional help/questions about this example send a message to
 [Bootique forum](https://groups.google.com/forum/#!forum/bootique-user).*
@@ -50,7 +49,7 @@ Check the options available in your app:
       --serial
            Enforces sequential execution of the jobs, specified with '--job' options.
 
-Define data sources and target database in *config.yml*:
+Define source and target databases in *config.yml*:
 ```yaml
 jdbc:
   sourcedb:
@@ -71,7 +70,7 @@ cayenne:
   createSchema: true
 
 linkmove:
-  extractorsDir: /Users/your_user/bootique-linkmove-demo/sync-database #use absolute path
+  extractorsDir: classpath:etl
   connectorFactories:
     - type: jdbc
 ```

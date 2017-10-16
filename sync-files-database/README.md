@@ -1,7 +1,6 @@
 # Synchronization from files's sources into a database
 
 An example of data synchronization from files' data sources into a database. 
-The example is developed with [Linkmove](https://github.com/nhl/link-move) integrated into [Bootique](http://bootique.io).
 
 *For additional help/questions about this example send a message to
 [Bootique forum](https://groups.google.com/forum/#!forum/bootique-user).*
@@ -50,25 +49,26 @@ Check the options available in your app:
       --serial
            Enforces sequential execution of the jobs, specified with '--job' options.
 
-Define data sources and target database in *config.yml*:
+Define data sources connectors and target database in *config.yml*:
 ```yaml
 jdbc:
-  targetdb:
-      url: jdbc:mysql://localhost:3306/targetdb?connectTimeout=0&autoReconnect=true
+  sourcedb:
+      url: jdbc:mysql://localhost:3306/sourcedb?connectTimeout=0&autoReconnect=true
       driverClassName: com.mysql.jdbc.Driver
       initialSize: 1
       username: root
       password:
 
 cayenne:
-  datasource: targetdb
+  datasource: sourcedb
 
 linkmove:
-  extractorsDir: /Users/your_user/bootique-linkmove-demo/sync-files-database
+  extractorsDir: classpath:etl
   connectorFactories:
     - type: uri
-      connectors: #sources
-        tagSourceConnector: file:///Users/your_user/bootique-linkmove-demo/sync-files-database/tag.csv #use absolute path
+      connectors:
+        tagSourceConnector: classpath:etl/tag.csv
+        articleSourceConnector: classpath:etl/article.csv
 ```
 
 [Cayenne](https://cayenne.apache.org) is non-separable part of LinkMove as an ORM for the target database.  
