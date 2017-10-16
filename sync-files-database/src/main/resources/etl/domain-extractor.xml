@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://linkmove.io/xsd/extractor_config_2.xsd"
+        xmlns="http://linkmove.io/xsd/extractor_config_2.xsd">
+    <type>json</type>
+    <connectorId>domainSourceConnector</connectorId>
+    <extractor>
+        <attributes>
+            <attribute>
+                <type>java.lang.String</type>
+                <source>key</source>
+                <target>db:id</target>
+            </attribute>
+            <attribute>
+                <type>java.lang.String</type>
+                <source>name</source>
+                <target>name</target>
+            </attribute>
+            <attribute>
+                <type>java.lang.String</type>
+                <source>domainHost</source>
+                <target>db:domain_host</target>
+            </attribute>
+        </attributes>
+        <properties>
+            <extractor.json.path>$.[*]</extractor.json.path>
+        </properties>
+    </extractor>
+</config>

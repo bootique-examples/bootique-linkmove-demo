@@ -17,22 +17,6 @@ public class LmStackExtendCallBack implements LinkMoveBuilderCallback {
     @Override
     public void build(LmRuntimeBuilder builder) {
 
-        //specify data sources
-        builder.withConnector("articleSourceConnector",
-                new StreamConnector() {
-                    @Override
-                    public InputStream getInputStream() throws IOException {
-                        URL url = ResourceFactory.class.getClassLoader().getResource("etl/article.csv");
-
-                        return url.openStream();
-                    }
-
-                    @Override
-                    public void shutdown() {
-
-                    }
-                });
-
         builder.withConnector("domainSourceConnector", new StreamConnector() {
             @Override
             public InputStream getInputStream() throws IOException {

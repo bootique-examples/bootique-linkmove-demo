@@ -1,8 +1,8 @@
 package io.bootique.lm.cayenne;
 
-import io.bootique.lm.cayenne.auto._TTag;
+import io.bootique.lm.cayenne.auto._STag;
 
-public class TTag extends _TTag {
+public class STag extends _STag {
 
     private static final long serialVersionUID = 1L; 
 

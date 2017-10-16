@@ -2,7 +2,7 @@
 <domain project-version="9">
 	<map name="datamap"/>
 
-	<!--skip data node declaration - config.yml is used-->
+	<!--skip data node declaration here, config.yml declares db url-->
 
 	<!--<node name="datanode"-->
 		 <!--factory="org.apache.cayenne.configuration.server.XMLPoolingDataSourceFactory"-->
@@ -11,7 +11,7 @@
 		<!--<map-ref name="datamap"/>-->
 		<!--<data-source>-->
 			<!--<driver value="com.mysql.jdbc.Driver"/>-->
-			<!--<url value="jdbc:mysql://localhost:3306/targetdb?connectTimeout=0&amp;autoReconnect=true"/>-->
+			<!--<url value="jdbc:mysql://localhost:3306/sourcedb?connectTimeout=0&amp;autoReconnect=true"/>-->
 			<!--<connectionPool min="1" max="1"/>-->
 			<!--<login userName="root"/>-->
 		<!--</data-source>-->

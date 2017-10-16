@@ -12,12 +12,11 @@ USE `sourcedb` ;
 -- Table `sourcedb`.`s_domain`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `sourcedb`.`s_domain` (
-  `id` BIGINT(20) NOT NULL AUTO_INCREMENT,
+  `id` BIGINT(20) NOT NULL,
   `name` VARCHAR(100) NOT NULL,
   `domain_host` VARCHAR(100) NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 4
 DEFAULT CHARACTER SET = latin1;
 
 
@@ -35,7 +34,6 @@ CREATE TABLE IF NOT EXISTS `sourcedb`.`s_article` (
     FOREIGN KEY (`domain_id`)
     REFERENCES `sourcedb`.`s_domain` (`id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 4
 DEFAULT CHARACTER SET = latin1;
 
 
@@ -53,7 +51,6 @@ CREATE TABLE IF NOT EXISTS `sourcedb`.`s_tag` (
     FOREIGN KEY (`article_id`)
     REFERENCES `sourcedb`.`s_article` (`id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 4
 DEFAULT CHARACTER SET = latin1;
 
 
