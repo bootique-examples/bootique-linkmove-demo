@@ -18,12 +18,8 @@
     </description>
 
     <properties>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
-        <linkmove-version>2.2</linkmove-version>
-        <mysql-version>6.0.6</mysql-version>
+        <mysql-version>8.0.13</mysql-version>
 
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <main.class>Application</main.class>
     </properties>
 
@@ -32,7 +28,7 @@
             <dependency>
                 <groupId>io.bootique.bom</groupId>
                 <artifactId>bootique-bom</artifactId>
-                <version>0.24</version>
+                <version>1.0.RC1</version>
                 <scope>import</scope>
                 <type>pom</type>
             </dependency>
@@ -48,6 +44,10 @@
         <dependency>
             <groupId>io.bootique.linkmove</groupId>
             <artifactId>bootique-linkmove</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.bootique.jdbc</groupId>
+            <artifactId>bootique-jdbc-tomcat</artifactId>
         </dependency>
         <dependency>
             <groupId>io.bootique.job</groupId>

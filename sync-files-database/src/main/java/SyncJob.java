@@ -12,6 +12,7 @@ import io.bootique.lm.cayenne.STag;
 import java.util.Map;
 
 public class SyncJob extends BaseJob {
+
     @Inject
     private LmRuntime lmRuntime;
 

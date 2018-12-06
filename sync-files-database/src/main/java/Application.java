@@ -7,7 +7,11 @@ import io.bootique.linkmove.LinkMoveModule;
 public class Application implements Module {
 
     public static void main(String[] args) {
-        Bootique.app(args).autoLoadModules().module(Application.class).run();
+        Bootique.app(args)
+                .autoLoadModules()
+                .module(Application.class)
+                .exec()
+                .exit();
     }
 
     @Override

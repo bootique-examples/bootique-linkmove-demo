@@ -11,18 +11,13 @@ import java.net.URL;
 
 public class LmStackExtendCallBack implements LinkMoveBuilderCallback {
 
-    @Inject
-    DataSourceFactory factory;
-
     @Override
     public void build(LmRuntimeBuilder builder) {
 
         builder.withConnector("domainSourceConnector", new StreamConnector() {
             @Override
             public InputStream getInputStream() throws IOException {
-                URL url = ResourceFactory.class.getClassLoader().getResource("etl/domain.json");
-
-                return url.openStream();
+                return ResourceFactory.class.getClassLoader().getResource("etl/domain.json").openStream();
             }
 
             @Override

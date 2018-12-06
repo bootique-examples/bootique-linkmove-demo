@@ -4,7 +4,7 @@ import com.nhl.link.move.LmTask;
 import com.nhl.link.move.annotation.AfterTargetsMerged;
 import com.nhl.link.move.runtime.LmRuntime;
 import com.nhl.link.move.runtime.task.createorupdate.CreateOrUpdateSegment;
-import com.nhl.link.move.runtime.task.createorupdate.CreateOrUpdateTuple;
+import com.nhl.link.move.runtime.task.SourceTargetPair;
 import io.bootique.job.BaseJob;
 import io.bootique.job.JobMetadata;
 import io.bootique.job.runnable.JobResult;
@@ -63,8 +63,8 @@ public class SyncJob extends BaseJob {
 
         @AfterTargetsMerged
         public void fixArticles(Execution e, CreateOrUpdateSegment<TArticle> segment) {
-
-            segment.getMerged().stream().map(CreateOrUpdateTuple::getTarget)
+            segment.getMerged().stream()
+                    .map(SourceTargetPair::getTarget)
                     .forEach(g -> {
                         g.setPublishedOn(LocalDateTime.now());
                         g.setQuoteIndex(0);
