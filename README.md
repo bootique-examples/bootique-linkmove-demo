@@ -107,11 +107,11 @@ Here is how to build it:
 
 To to fill in the source database, run **sync-files-database** example first:
 
-    java -jar sync-files-database/target/sync-files-database-1.0-SNAPSHOT.jar --config=sync-files-database/config.yml --exec --job=sync
+    java -jar sync-files-database/target/sync-files-database-2.0.jar --config=sync-files-database/config.yml --exec --job=sync
 
 Then run **sync-database**:
 
-    java -jar sync-database/target/sync-database-1.0-SNAPSHOT.jar --config=sync-database/config.yml --exec --job=sync
+    java -jar sync-database/target/sync-database-2.0.jar --config=sync-database/config.yml --exec --job=sync
 
    
 **Note:** more detailed explanations you can find in the README.md of the examples.

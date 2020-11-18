@@ -1,4 +1,3 @@
-import com.google.inject.Inject;
 import com.nhl.link.move.Execution;
 import com.nhl.link.move.LmTask;
 import com.nhl.link.move.runtime.LmRuntime;
@@ -9,6 +8,7 @@ import io.bootique.lm.cayenne.SArticle;
 import io.bootique.lm.cayenne.SDomain;
 import io.bootique.lm.cayenne.STag;
 
+import javax.inject.Inject;
 import java.util.Map;
 
 public class SyncJob extends BaseJob {
