@@ -22,7 +22,7 @@ Here is how to build it:
 
 Check the options available in your app:
 
-    java -jar sync-files-database/target/sync-files-database-1.0-SNAPSHOT.jar
+    java -jar sync-files-database/target/sync-files-database-2.0.jar
 
     OPTIONS
       -c yaml_location, --config=yaml_location
@@ -100,7 +100,7 @@ Transforming data is performed by extractors described in XML (e.g. [domain-extr
 
 Run the job:
     
-    java -jar sync-files-database/target/sync-files-database-1.0-SNAPSHOT.jar --config=sync-files-database/config.yml --exec --job=sync
+    java -jar sync-files-database/target/sync-files-database-2.0.jar --config=sync-files-database/config.yml --exec --job=sync
 
 Result - data successfully inserted into the database:
 

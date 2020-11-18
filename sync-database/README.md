@@ -22,7 +22,7 @@ Here is how to build it:
 
 Check the options available in your app:
 
-    java -jar sync-database/target/sync-database-1.0-SNAPSHOT.jar
+    java -jar sync-database/target/sync-database-2.0.jar
 
     OPTIONS
       -c yaml_location, --config=yaml_location
@@ -103,7 +103,7 @@ Transforming data is performed by extractors described in XML (e.g. [domain-extr
 
 Run the job:
     
-    java -jar sync-database/target/sync-database-1.0-SNAPSHOT.jar --config=sync-database/config.yml --exec --job=sync
+    java -jar sync-database/target/sync-database-2.0.jar --config=sync-database/config.yml --exec --job=sync
 
 Result report:
 

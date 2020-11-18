@@ -1,4 +1,4 @@
-Id;Title;Body;Domain_ID;
-1;About;ObjectStyle has deep roots in the open source community...;1;
-2;Getting Started with Bootique;Getting Started with Bootique...;2;
-3;LinkMove;LinkMove  an ETL solution...;3;
+Id,Title,Body,Domain_ID
+1,About,ObjectStyle has deep roots in the open source community...,1
+2,Getting Started with Bootique,Getting Started with Bootique...,2
+3,LinkMove,LinkMove an ETL solution...,3

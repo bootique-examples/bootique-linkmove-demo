@@ -1,10 +1,8 @@
-import com.google.inject.Inject;
 import com.nhl.link.move.Execution;
 import com.nhl.link.move.LmTask;
 import com.nhl.link.move.annotation.AfterTargetsMerged;
 import com.nhl.link.move.runtime.LmRuntime;
 import com.nhl.link.move.runtime.task.createorupdate.CreateOrUpdateSegment;
-import com.nhl.link.move.runtime.task.SourceTargetPair;
 import io.bootique.job.BaseJob;
 import io.bootique.job.JobMetadata;
 import io.bootique.job.runnable.JobResult;
@@ -12,7 +10,9 @@ import io.bootique.lm.cayenne.TArticle;
 import io.bootique.lm.cayenne.TDomain;
 import io.bootique.lm.cayenne.TTag;
 
+import javax.inject.Inject;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
 
 public class SyncJob extends BaseJob {
@@ -63,12 +63,17 @@ public class SyncJob extends BaseJob {
 
         @AfterTargetsMerged
         public void fixArticles(Execution e, CreateOrUpdateSegment<TArticle> segment) {
-            segment.getMerged().stream()
-                    .map(SourceTargetPair::getTarget)
-                    .forEach(g -> {
-                        g.setPublishedOn(LocalDateTime.now());
-                        g.setQuoteIndex(0);
-                    });
+
+            for (Object object : segment.getContext().modifiedObjects()){
+                if (object instanceof TDomain) {
+                    TDomain tDomain = (TDomain) object;
+                    List<TArticle> tArticles = tDomain.getTArticles();
+                    for (TArticle tArticle : tArticles) {
+                        tArticle.setPublishedOn(LocalDateTime.now());
+                        tArticle.setQuoteIndex(1);
+                    }
+                }
+            }
         }
 
     }

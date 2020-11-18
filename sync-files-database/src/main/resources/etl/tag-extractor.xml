@@ -24,7 +24,7 @@
             </attribute>
         </attributes>
         <properties>
-            <extractor.csv.delimiter>;</extractor.csv.delimiter>
+            <extractor.csv.delimiter>,</extractor.csv.delimiter>
             <extractor.csv.readFrom>3</extractor.csv.readFrom>
         </properties>
     </extractor>
