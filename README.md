@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/bootique-examples/bootique-linkmove-demo.svg)](https://travis-ci.org/bootique-examples/bootique-linkmove-demo)
+[![verify](https://github.com/bootique-examples/bootique-linkmove-demo/actions/workflows/verify.yml/badge.svg)](https://github.com/bootique-examples/bootique-linkmove-demo/actions/workflows/verify.yml)
 
 # bootique-linkmove-demo
 
