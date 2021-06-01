@@ -1,4 +1,4 @@
-import com.google.inject.Inject;
+
 import com.nhl.link.move.Execution;
 import com.nhl.link.move.LmTask;
 import com.nhl.link.move.annotation.AfterTargetsMerged;
@@ -11,6 +11,7 @@ import io.bootique.job.runnable.JobResult;
 import io.bootique.lm.cayenne.TArticle;
 import io.bootique.lm.cayenne.TDomain;
 import io.bootique.lm.cayenne.TTag;
+import org.apache.cayenne.di.Inject;
 
 import java.time.LocalDateTime;
 import java.util.Map;

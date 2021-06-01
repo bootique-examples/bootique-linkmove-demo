@@ -1,10 +1,10 @@
-import com.google.inject.Binder;
-import com.google.inject.Module;
 import io.bootique.Bootique;
+import io.bootique.di.BQModule;
+import io.bootique.di.Binder;
 import io.bootique.job.runtime.JobModule;
 import io.bootique.linkmove.LinkMoveModule;
 
-public class Application implements Module {
+public class Application implements BQModule {
 
     public static void main(String[] args) {
         Bootique.app(args)
