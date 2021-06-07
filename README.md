@@ -7,6 +7,10 @@ in [Bootique](http://bootique.io/) app:
 * [sync-files-database](https://github.com/bootique-examples/bootique-linkmove-demo/tree/master/sync-files-database) - an example of data synchronization from files' data sources into a database;
 * [sync-database](https://github.com/bootique-examples/bootique-linkmove-demo/tree/master/sync-database) - an example of data synchronization from one database into another.
 
+You can find different versions of framework in use at
+* [1.x](https://github.com/bootique-examples/bootique-linkmove-demo/tree/1.x)
+* [2.x](https://github.com/bootique-examples/bootique-linkmove-demo/tree/2.x)
+
 # Basic points
 
 * Both examples work with the same related models to be synchronized:
